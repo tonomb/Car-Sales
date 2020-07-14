@@ -1,3 +1,6 @@
+import {ADD_FEATURE} from '../actions/aditionalFeaturesAction'
+import {REMOVE_FEATURE} from '../actions/addedFeaturesActions'
+
 export const initialState = {
   additionalPrice: 0,
   car: {
@@ -17,7 +20,49 @@ export const initialState = {
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_FEATURE:
+     return {
+        ...state,
+        car : {
+            ...state.car,
+            features: [
+                ...state.car.features,
+               action.payload.feature
+            ]
+        },
+        additionalFeatures: state.additionalFeatures.filter(item => item.id !== action.payload.feature.id),
+        additionalPrice: state.additionalPrice + action.payload.feature.price
+    } 
+    case REMOVE_FEATURE:
+        console.log('trying to remove feature');
+        console.log('clicked feature', action.payload.feature);
+        return {
+            ...state,
+            car : {
+                ...state.car,
+                features: state.car.features.filter(item => item.id !== action.payload.feature.id)
+            },
+            additionalFeatures:[
+                ...state.additionalFeatures,
+               action.payload.feature
+            ] ,
+            additionalPrice: state.additionalPrice - action.payload.feature.price
+        } 
     default:
       return state;
   }
 };
+
+
+function addFeatureToCar(state, feature){
+    return {
+        ...state,
+        car : {
+            ...state.car,
+            features: [
+                ...state.car.features,
+               feature
+            ]
+        }
+    }   
+}
