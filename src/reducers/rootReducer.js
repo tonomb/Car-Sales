@@ -52,17 +52,3 @@ export const rootReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-
-function addFeatureToCar(state, feature){
-    return {
-        ...state,
-        car : {
-            ...state.car,
-            features: [
-                ...state.car.features,
-               feature
-            ]
-        }
-    }   
-}
